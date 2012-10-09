@@ -2,6 +2,8 @@
 
 	//http://jsfiddle.net/8bwG2/42/
 
+	var i = 0;
+	var circle;
 
 	var margin = 10;
 	var max_size = 0;  //metros de distancia
@@ -121,32 +123,32 @@
         map_ratio =( max_lon - min_lon )/( max_lat - min_lat );
         frame_ratio =( width )/( height );
         
-        
-        
-       /* max_distance = 0;
-        for (i = 0; i < circuito.length; i++){
-        	temp_distance = distance2p(med_lat,med_lon,circuito[i][0],circuito[i][1]);
-        	if (temp_distance > max_distance){
-        		max_distance = temp_distance;
-        	}
-        }*/
 
+        
         frame(width,height);
         drawPolyline(circuito);
+        
+        circle = new Path.Circle(geopoint(circuito[0][0],circuito[0][1]), 8);
+        circle.fillColor = 'red';
+        
+        setTimeout(function(){ 
+        	//circle.position = geopoint(circuito[1][0],circuito[1][1]);
+        	console.log('mec');
+        	moveto();
+        },1000)
+       
+        moveto();
+        
+
 	}
-
 	
-	//width = 1500;
-	//height = 1577;
-
-	//min_lon = 9.8;
-	//max_lon = 10.2;
-	//mapLonDelta = max_lon - min_lon;
-
-	//min_lat = 53.45;
-	//min_latDegree = min_lat * pi / 180;
-
 	
+	function moveto(){
+		circle.position = geopoint(circuito[1][0],circuito[1][1]);
+	}
+	
+
+
 	function geopoint_(lat,lon){
 		    x = (lon - min_lon) * (width / mapLonDelta);
 		    lat = lat * pi / 180;
@@ -173,7 +175,6 @@
 			x += (width - new_width)/2;
 			
 		}
-		
 		return new Point(x,y);
 	}
 
@@ -203,8 +204,6 @@
 
         return true;
         
-        
-        
     }
     
 
@@ -221,7 +220,7 @@
         	} else {
         		path.lineTo(geopoint(poly[i][0],poly[i][1]));
         	}
-        	console.log(geopoint(poly[i][0],poly[i][1]));
+        	//console.log(geopoint(poly[i][0],poly[i][1]));
         }	
     	path.lineTo(start);
     	path.smooth();
